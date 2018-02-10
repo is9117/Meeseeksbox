@@ -1,5 +1,5 @@
 
-# MP_MANAGER 설명서
+# MP_MANAGER
 
 version: 0.2.5
 
