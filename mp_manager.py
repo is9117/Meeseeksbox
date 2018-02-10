@@ -2,7 +2,7 @@
 
 __author__  = "Isaac Park(박이삭)"
 __email__ = "is9117@me.com"
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 
 ''' 
 === history ===
@@ -17,6 +17,7 @@ __version__ = "0.2.4"
                  due-to some race-condition problem.
 20171201(0.2.3): Use of restart_worker_semaphore, when not in reuse_worker mode is fixed.
 20171219(0.2.4): Small bug fix. out-queue null check fixed.
+20180210(0.2.5): Few cvmment fixed.
 ===============
 '''
 
@@ -59,8 +60,8 @@ class MP_MANAGER:
       
     - output_queue_size:
       Output queue max size
-      Output queue will be added with return value of the target function.
-      Note: Disabling of this feature is to NOT TO return any value in the target function.
+      Output queue will be enqueued with return value of the target function.
+      Note: Disabling of this feature is to NOT TO return any value or to return None in the target function.
       0 for infinite size.
       Default value is 0
       
