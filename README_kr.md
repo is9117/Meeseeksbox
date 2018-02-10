@@ -134,10 +134,9 @@ date: 2017-12-19
 
             
 
-예제:
 
 * * *
-# "DEFAULT" mode사용 예제
+## "DEFAULT" mode사용 예제
 
 <pre><code>from mp_manager import MP_MANAGER
 
@@ -151,13 +150,13 @@ for i in xrange(100):
 
 ret = mp.get()
 while ret:
-    print ret
+    print(ret)
     ret = mp.get()
     
 mp.stop_all_worker()</code></pre>
 
 * * *
-# "PREFORK" mode사용 예제 1
+## "PREFORK" mode사용 예제 1
 
 <pre><code>from mp_manager import MP_MANAGER, WORKER_PROCESS
 
@@ -178,18 +177,18 @@ for i in xrange(100):
 
 ret = mp.get()
 while ret:
-    print ret
+    print(ret)
     ret = mp.get()
 
 mp.stop_all_worker()</code></pre>
 
 * * *
-# "PREFORK" mode사용 예제 2
+## "PREFORK" mode사용 예제 2
 
 <pre><code>from mp_manager import MP_MANAGER, WORKER_PROCESS
 
 def print_result(a, b):
-    print a + b
+    print(a + b)
 
 # worker_reuse_num 5000
 mp = MP_MANAGER(print_result, worker_num=4, input_queue_size=8, mode="PREFORK", worker_reuse_num=5000)
