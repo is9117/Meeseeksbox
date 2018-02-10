@@ -1,17 +1,17 @@
 
 # MP_MANAGER 설명서
 
-version: 0.2.2
-date: 2017-11-27
+version: 0.2.4
+date: 2017-12-19
 
 
-Summary:
+## Summary:
 - MP_MANAGER는 python multi-processing worker 관리 라이브러리입니다.
   복수의 worker를 실행, 종료, job분배, worker결과값 추출 등 사용자가 
   손쉽게 worker를 사용, 관리 할 수 있도록 도우는 기능들을 제공하고 있습니다.
 
 
-전체 기능:
+## 전체 기능:
 - 실행: 
   worker를 최고 입력개수만큼 실행시켜 입력한 job을 multi-processing으로 실행합니다
 - 종료: 
@@ -44,8 +44,8 @@ Summary:
   로그로 남겨 디버그, 실행시간기록 시 유용합니다.
 
 
-클라스:
-class mp_manager.MP_MANAGER(target,
+## 클라스:
+<pre><code>class mp_manager.MP_MANAGER(target,
                             worker_num            = 2,
                             input_queue_size      = 4,
                             output_queue_size     = 0,
@@ -55,7 +55,7 @@ class mp_manager.MP_MANAGER(target,
                             enable_log            = False,
                             log_handler           = None,
                             log_level             = logging.INFO,
-                            log_name              = "mp_manager")
+                            log_name              = "mp_manager")</code></pre>
 - 설명:
   worker를 관리하는 클라스.
   객체가 생성 시 worker가 같이 생성됩니다(PREFORK mode경우만).
@@ -120,7 +120,7 @@ class mp_manager.MP_MANAGER(target,
 
 
     
-class mp_manager.WORKER_PROCESS()
+<pre><code>class mp_manager.WORKER_PROCESS()</code></pre>
 
 - 설명:
   PREFORK mode에서 객체를 재사용하기 위해서 상속해야 할 클라스.
@@ -136,10 +136,10 @@ class mp_manager.WORKER_PROCESS()
 
 예제:
 
-=======================================
+* * *
 # "DEFAULT" mode사용 예제
 
-from mp_manager import MP_MANAGER
+<pre><code>from mp_manager import MP_MANAGER
 
 def add_func(a, b):
     return a + b
@@ -154,12 +154,12 @@ while ret:
     print ret
     ret = mp.get()
     
-mp.stop_all_worker()
+mp.stop_all_worker()</code></pre>
 
-=======================================
+* * *
 # "PREFORK" mode사용 예제 1
 
-from mp_manager import MP_MANAGER, WORKER_PROCESS
+<pre><code>from mp_manager import MP_MANAGER, WORKER_PROCESS
 
 class TEST_WORKER(WORKER_PROCESS):
     foo = FOO() # 재사용할 객체 선언
@@ -181,12 +181,12 @@ while ret:
     print ret
     ret = mp.get()
 
-mp.stop_all_worker()
+mp.stop_all_worker()</code></pre>
 
-=======================================
+* * *
 # "PREFORK" mode사용 예제 2
 
-from mp_manager import MP_MANAGER, WORKER_PROCESS
+<pre><code>from mp_manager import MP_MANAGER, WORKER_PROCESS
 
 def print_result(a, b):
     print a + b
@@ -197,9 +197,9 @@ mp = MP_MANAGER(print_result, worker_num=4, input_queue_size=8, mode="PREFORK", 
 for i in xrange(100):
     mp.put(i, i+1)
 
-mp.stop_all_worker()
+mp.stop_all_worker()</code></pre>
 
-=======================================
+* * *
 
 
 
