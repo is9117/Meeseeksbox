@@ -2,6 +2,7 @@
 # MP_MANAGER 설명서
 
 version: 0.2.5
+
 date: 2018-02-10
 
 
