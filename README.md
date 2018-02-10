@@ -62,61 +62,61 @@ date: 2018-02-10
   객체가 생성 시 worker가 같이 생성됩니다(PREFORK mode경우만).
   
 - parameters:
-  target은 worker가 실행 할 함수나 WORKER_PROCESS상속 객체는 받습니다. "DEFAULT" mode에서는 함수만,
+  - target은 worker가 실행 할 함수나 WORKER_PROCESS상속 객체는 받습니다. "DEFAULT" mode에서는 함수만,
     "PREFORK" mode에서는 함수와 객체를 받을수 있습니다. 
     함수는 어떤 종류가 가능합니다. top-level, class member function 등
-  worker_num은 worker의 최고 개수를 정합니다(기본값:2).
-  input_queue_size은 입력할 job queue의 크기입니다(기본값:4). 0일 시 무제한이 됩니다. 
-    자세한 내용은 링크 참고: [link](https://docs.python.org/2/library/multiprocessing.html#multiprocessing.Queue, "multiprocessing.Queue")    
-  output_queue_size은 worker가 반환한 결과값을 출력할 queue의 크기입니다(기본값:0). 0일 시 무제한이 됩니다. 
+  - worker_num은 worker의 최고 개수를 정합니다(기본값:2).
+  - input_queue_size은 입력할 job queue의 크기입니다(기본값:4). 0일 시 무제한이 됩니다. 
     자세한 내용은 링크 참고: [link](https://docs.python.org/2/library/multiprocessing.html#multiprocessing.Queue, "multiprocessing.Queue")
-  mode(기본값:"DEFAULT")는 mp_manager의 mode를 결정합니다. PREFORK와 DEFAULT 중 정할 수 있습니다.
-  worker_reuse_num는 worker reuse limit를 정합니다(기본값:0). job의 최고 실행 개수를 뜻합니다.
+  - output_queue_size은 worker가 반환한 결과값을 출력할 queue의 크기입니다(기본값:0). 0일 시 무제한이 됩니다. 
+    자세한 내용은 링크 참고: [link](https://docs.python.org/2/library/multiprocessing.html#multiprocessing.Queue, "multiprocessing.Queue")
+  - mode(기본값:"DEFAULT")는 mp_manager의 mode를 결정합니다. PREFORK와 DEFAULT 중 정할 수 있습니다.
+  - worker_reuse_num는 worker reuse limit를 정합니다(기본값:0). job의 최고 실행 개수를 뜻합니다.
     0 일 시 비활성화 됩니다.
-  worker_timeout는 worker의 time-out을 정합니다(기본값:0). job의 실행시간(초단위)을 뜻합니다.
+  - worker_timeout는 worker의 time-out을 정합니다(기본값:0). job의 실행시간(초단위)을 뜻합니다.
     0 일 시 비활성화 됩니다.
-  enable_log(기본값:False)는 로그기능을 활성화 할 지 결정합니다.
-  log_handler(기본값:None)는 사용자가 사용할 로그핸들러를 입력할 수 있습니다.
+  - enable_log(기본값:False)는 로그기능을 활성화 할 지 결정합니다.
+  - log_handler(기본값:None)는 사용자가 사용할 로그핸들러를 입력할 수 있습니다.
     값이 None일 시 포멧이 "<%(levelname)s::%(name)s> [%(asctime)s] %(message)s"인
     StreamHandler를 사용하게 됩니다.
-    자세한 내용은 링크 참고: [link](https://docs.python.org/2/library/logging.handlers.html,"logging.handlers")
-  log_level(기본값:logging.INFO)는 사용자가 사용할 로그레벨을 입력할 수 있습니다.
-    자세한 내용은 링크 참고: [link](https://docs.python.org/2/library/logging.html,"logging.level")
-  log_name(기본값:"mp_manager")는 로그 시 사용될 logger객체 이름을 정할 수 있습니다.
-    자세한 내용은 링크 참고: [link](https://docs.python.org/2/library/logging.html)
+    자세한 내용은 링크 참고: [link](https://docs.python.org/2/library/logging.handlers.html,"logging.handlers") 
+  - log_level(기본값:logging.INFO)는 사용자가 사용할 로그레벨을 입력할 수 있습니다.
+    자세한 내용은 링크 참고: [link](https://docs.python.org/2/library/logging.html,"logging.level") 
+  - log_name(기본값:"mp_manager")는 로그 시 사용될 logger객체 이름을 정할 수 있습니다.
+    자세한 내용은 링크 참고: [link](https://docs.python.org/2/library/logging.html) 
 
 - 멤버함수
-  put_nowait(*args):
+  - put_nowait(*args):
     job을 입력합니다. 만약 입력큐가 다 찼을 시 Queue.Full 예외가 발생합니다.
     *args는 target에서 실행하는 함수와 같은 매개변수를 입력하면 됩니다.
     ex) put_nowait('foo', 'bar')
   
-  put(*args)
+  - put(*args)
     job을 입력합니다. 만약 입력큐가 다 찼을 시 큐에 공간이 생길 시 까지 hold합니다.
     *args는 target에서 실행하는 함수와 같은 매개변수를 입력하면 됩니다.
     ex) put('foo', 'bar')
   
-  get()
+  - get()
     출력큐에서 값을 하나 반환합니다.
     큐가 비었을 경우 None을 반환합니다.
   
-  get_bulk(number)
+  - get_bulk(number)
     number개수만큼 출력큐에서 값을 bulk로 반환합니다.
     큐가 비었을 경우 []을 반환합니다.
   
-  stop_all_worker()
+  - stop_all_worker()
     모든 worker가 job을 전부 처리하고 종료할 때 까지 기다립니다.
   
-  is_inqueue_full()
+  - is_inqueue_full()
     입력큐가 찼는지 상태 반환
     
-  is_inqueue_empty()
+  - is_inqueue_empty()
     입력큐가 비었는지 상태 반환
     
-  is_outqueue_full()
+  - is_outqueue_full()
     출력큐가 찼는지 상태 반환
     
-  is_outqueue_empty()
+  - is_outqueue_empty()
     출력큐가 비었는지 상태 반환
 
 
