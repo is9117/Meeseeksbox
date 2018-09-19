@@ -2,7 +2,7 @@
 
 __author__  = "Isaac Park(박이삭)"
 __email__ = "is9117@me.com"
-__version__ = "0.2.5"
+__version__ = "0.3.0"
 
 ''' 
 === history ===
@@ -18,9 +18,11 @@ __version__ = "0.2.5"
 20171201(0.2.3): Use of restart_worker_semaphore, when not in reuse_worker mode is fixed.
 20171219(0.2.4): Small bug fix. out-queue null check fixed.
 20180210(0.2.5): Few cvmment fixed.
+20180915(0.3.0): Support for Python 3 added
 ===============
 '''
 
+import sys
 import time
 import logging
 import datetime
@@ -28,8 +30,12 @@ import traceback
 import threading
 
 from copy import copy
-from Queue import Empty, Full
 from multiprocessing import Process, Queue, Value, Semaphore
+
+if sys.version_info[0] < 3:
+    from Queue import Empty, Full
+else:
+    from queue import Empty, Full
 
 
 class MP_MANAGER:
@@ -203,7 +209,7 @@ class MP_MANAGER:
                 # if target is WORKER_PROCESS instance
                 self.logger.debug("starting PREFORK(instance) mode worker processes")
                 
-            for i in xrange(self.worker_num):
+            for i in range(self.worker_num):
                 p = copy(self.target)
                 p.idx = i
                 p.in_queue = self.in_q
@@ -305,7 +311,7 @@ class MP_MANAGER:
     
         result = []
         try:
-            for _ in xrange(number):
+            for _ in range(number):
                 ret = self.out_q.get_nowait()
                 result.append(ret)
             return result
