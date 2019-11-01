@@ -2,25 +2,8 @@
 
 __author__  = "Isaac Park(박이삭)"
 __email__ = "is9117@me.com"
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 
-''' 
-=== history ===
-20171122(0.2.0): Refactoring
-20171127(0.2.1): Loggings at essential steps ared added
-                 In PREFORK mode, function is handled by WORKER_PROCESS class instance,
-                 thereby reused some codes.
-                 Worker reuse mode worker time-out added
-20171128(0.2.2): time.sleep(0) after every job finished added for better multi-processing scheduling optimization.
-                 More optimizations.
-                 restart_worker_flag(restart_worker_semaphore) is changed from Value to Semaphore, 
-                 due-to some race-condition problem.
-20171201(0.2.3): Use of restart_worker_semaphore, when not in reuse_worker mode is fixed.
-20171219(0.2.4): Small bug fix. out-queue null check fixed.
-20180210(0.2.5): Few cvmment fixed.
-20180915(0.3.0): Support for Python 3 added
-===============
-'''
 
 import sys
 import time
@@ -568,6 +551,16 @@ class WORKER_PROCESS(Process):
             except:
                 tb = traceback.format_exc()
                 self.logger.error("[{}] ".format(self.idx) + "error occurred at worker main loop : " + tb)
+
+        # flush stdout, stdin, stderr
+        try:
+            sys.stdout.flush()
+            sys.stderr.flush()
+            sys.stdin.flush()
+            self.logger.debug("[{}] ".format(self.idx) + "buffer flushed")
+        except:
+            tb = traceback.format_exc()
+            self.logger.error("[{}] ".format(self.idx) + "error occurred at flushing buffer : " + tb)
         
         self.logger.info("[{}] ".format(self.idx) + "ending worker process")
         
