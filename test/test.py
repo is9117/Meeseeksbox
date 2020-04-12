@@ -1,54 +1,31 @@
 
+import sys
 import time
 import logging
-import traceback
-import threading
 
-from copy import copy
-from Queue import Empty
-from multiprocessing import Process, Queue, Value
+sys.path.append(".")
+import mp
 
 
-class TEST:
+logging.basicConfig(format="%(asctime)s %(levelname)s [%(process)d:%(module)s:%(funcName)s] %(message)s", level=logging.DEBUG)
 
-    b = "bcde"
+class Task:
 
-    def test(self, a):
-        print a, self.b
+    def task(self, *args):
+        logging.info(args)
 
-        
-def func(target, a):
 
-    print callable(target)
+mp.start()
 
-    # target(a)
-    
-if __name__ == "__main__":
+worker = mp.new_worker("test", Task)
 
-    # t = TEST()
-    
-    # func(t.test, 'ajklkj')
-    # func(t, 'ajklkj')
-    
-    # print "{}".format(t.test)
+for i in range(100):
+    worker.enqueue("test output", str(i))
+    time.sleep(0.3)
 
-    in_q_dict = {}
-    for i in xrange(10):
-        in_q_dict[i] = {'cnt':i, 'queue':None}
-        
-    print in_q_dict
-    
-    print in_q_dict.values()
-    
-    new_list = sorted(in_q_dict.values(), key=lambda x: x['cnt'], reverse=True)
-    # new_list = sorted(in_q_dict.values(), key=attrgetter('cnt'), reverse=True)
-    print new_list
-    
-    new_list[0]['cnt'] += 1
-    in_q_dict[0]['cnt'] += 1
-    
-    print new_list
-    print in_q_dict
-    
-    
-    
+mp.stop()
+
+
+
+
+
